@@ -1,4 +1,6 @@
 Meta:
+@author Daniel Tiefenauer
+@homepage http://www.tiefenauer.info
 
 Narrative:
 As a music lover
