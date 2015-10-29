@@ -3,9 +3,11 @@ package info.tiefenauer.tutorials.jbehave;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
+import org.jbehave.core.model.ExamplesTable;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertTrue;
+import java.util.ArrayList;
+import java.util.Map;
+
 import static org.junit.Assert.*;
 
 /**
@@ -14,6 +16,7 @@ import static org.junit.Assert.*;
 public class RadioSteps {
 
     private Radio radio;
+    private ArrayList<RadioStation> stations;
 
     @Given("a digital radio")
     public void aDigitalRadio(){
@@ -27,6 +30,18 @@ public class RadioSteps {
         if(!radio.isTurnedOn())
             radio.switchOnOff();
     }
+
+    @Given("the radio stations: $table")
+    public void theRadioStations(ExamplesTable table){
+        stations = new ArrayList<>();
+        String name, frequency;
+        for(Map<String, String> row : table.getRows()){
+            name = row.get("name");
+            frequency = row.get("frequency");
+            stations.add(new RadioStation(name, frequency));
+        }
+    }
+
     @When("I press the on/off switch")
     public void iTurnOnTheRadio(){
         radio.switchOnOff();
@@ -46,6 +61,14 @@ public class RadioSteps {
     public void theRadioShouldBeTurnedOn(){
         assertTrue(radio.isTurnedOn());
     }
+
+    @When("all stations are added as presets")
+    public void allStationsAreAddedAsPresets(){
+        for(RadioStation station : stations){
+            radio.addPreset(station);
+        }
+    }
+
     @Then("the radio should be turned off")
     public void theRadioShouldBeTurnedOff(){
         assertFalse(radio.isTurnedOn());
@@ -61,4 +84,8 @@ public class RadioSteps {
         assertEquals(frequency, radio.getCurrentFrequency());
     }
 
+    @Then("the radio should have $numberOfStations stations saved")
+    public void theRadioShouldHaveStationsSaved(int numberOfStations){
+        assertEquals(numberOfStations, stations.size());
+    }
 }

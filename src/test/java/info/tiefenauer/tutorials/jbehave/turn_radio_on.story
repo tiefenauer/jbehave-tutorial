@@ -32,3 +32,12 @@ Examples:
 |stationName|displayName|
 |Dani F.M.|Dani F.M.|
 |A really long station name which will definitely not fit into the display|A reall...|
+
+Scenario: tabular parameters
+Given the radio stations:
+|name|frequency|
+|Dani F.M.|90.0|
+|Holiday F.M.|103.8|
+|Radio Paradise|99.9|
+When all stations are added as presets
+Then the radio should have 3 stations saved

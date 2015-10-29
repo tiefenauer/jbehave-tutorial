@@ -2,6 +2,8 @@ package info.tiefenauer.tutorials.jbehave;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by danieltiefenauer on 29.10.2015.
@@ -12,6 +14,7 @@ public class Radio {
     private boolean turnedOn;
     private String currentStation;
     private String currentFrequency;
+    private List<RadioStation> presets = new ArrayList<>();
 
     public Radio() {
 
@@ -47,5 +50,9 @@ public class Radio {
 
     public String getCurrentFrequency() {
         return currentFrequency;
+    }
+
+    public void addPreset(RadioStation station) {
+        presets.add(station);
     }
 }
